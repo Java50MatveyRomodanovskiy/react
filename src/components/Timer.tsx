@@ -19,7 +19,7 @@ export const Timer:React.FC <Props> = ({cityCountry}) => {
         const interval = setInterval(tic, 1000);
         return () => clearInterval(interval);
     },[]);
-    let index : number = timeZones.findIndex(e => e.name.includes(cityCountry) || e.countryName.includes(cityCountry));
+    let index : number = timeZones.findIndex(e => e.name.includes(cityCountry) || e.countryName.includes(cityCountry) || e.alternativeName.includes(cityCountry));
     index = -1 ? 195 : index;
     return <div id="localTime">
         <h2 id="titleTime">Current time in {cityCountry}</h2>
