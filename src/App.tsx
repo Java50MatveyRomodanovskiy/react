@@ -9,7 +9,11 @@ function App() {
     <Timer cityCountry='London'/>
     <Timer cityCountry='Vladivostok'/>
     <Timer cityCountry='Toronto'/>
-    <Timer cityCountry='Israel'/>
+    <Timer cityCountry='Rome'/>
+    <Timer cityCountry='Tokyo'/>
+    <Timer cityCountry='Moscow'/>
+    <Timer cityCountry='Maldives'/>
+    <Timer cityCountry='Jerusalem'/>
       </div>
     
   );
