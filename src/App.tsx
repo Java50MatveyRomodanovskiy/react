@@ -22,7 +22,5 @@ function App() {
 }
   
   export default App;
-  function checkCity(arg0: string): string {
-  throw new Error('Function not implemented.');
-}
+ 
 

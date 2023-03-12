@@ -26,7 +26,8 @@ export const Timer:React.FC <Props> = ({cityCountry}) => {
     },[]);
     
     function getTimeZone(): string | undefined {
-        let index : number = timeZones.findIndex(tz => JSON.stringify(tz).includes(cityCountry));
+        let index : number = timeZones.findIndex(e => e.name.includes(inputValue) || e.countryName.includes(inputValue) 
+        || e.alternativeName.includes(inputValue));
         index = (index === -1) ? 195 : index;
         return timeZones[index].name;
     }
