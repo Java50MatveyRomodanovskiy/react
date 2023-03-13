@@ -1,6 +1,7 @@
 import { InputTest } from './InputTest';
 import timeZones from "../time-zones";
 import React, { useEffect, useRef } from "react";
+import '../Timer.css'
 type Props = {
     cityCountry: string;
 }
