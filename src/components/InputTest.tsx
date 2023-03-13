@@ -9,7 +9,7 @@ type Props = {
 export const InputTest: React.FC  <Props> = ({cityCountry, setInputValue}) =>  {
     function submit(value: string): string {
         let res ='';
-        let index : number = timeZones.findIndex(tz => JSON.stringify(tz).includes(cityCountry));
+        let index : number = timeZones.findIndex(tz => JSON.stringify(tz).includes(value));
         if (index === -1){
             res = "Unfortunately, I don't know such city"
         }
