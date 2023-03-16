@@ -7,16 +7,17 @@ import { CounterUpdater } from './components/CounterUpdater';
 import { CounterMultiply } from './components/CounterMultiply';
 import { CounterSquare } from './components/CounterSquare';
 import{AuthentificatorUpdater} from './components/AuthentificatorUpdater';
+import { useSelector } from 'react-redux';
 
 
 
 function App() {
-
+  const userName = useSelector<any, string>(state=>state.login.userName);
   return  <div>
   <AuthentificatorUpdater/>
-  <CounterUpdater operand = {10}/>
-  <CounterMultiply factor= {2}/>
-  <CounterSquare />
+ {userName && < CounterUpdater operand = {10}/>}
+ {userName ==='admin' &&<CounterMultiply factor= {2}/>}
+ {userName && <CounterSquare />}
   </div>
  
   //   <div id="clock">

@@ -6,11 +6,10 @@ type Props = {
     operand: number
 }
 export const CounterUpdater: React.FC<Props> =({operand}) => {
-    const userName = useSelector<any, string>(state=>state.login.userName);
     const dispach = useDispatch();
     return<div>
-        {userName && <button onClick={() => dispach(counterActions.increment(operand))}>Increment</button>}
-        {userName && <button onClick={() => dispach(counterActions.decrement(operand))}>Decrement</button>}
-        {(userName === 'admin') && <button onClick={() => dispach(counterActions.reset())}>Reset</button>}
+        { <button onClick={() => dispach(counterActions.increment(operand))}>Increment</button>}
+        { <button onClick={() => dispach(counterActions.decrement(operand))}>Decrement</button>}
+        {<button onClick={() => dispach(counterActions.reset())}>Reset</button>}
     </div>
 }
