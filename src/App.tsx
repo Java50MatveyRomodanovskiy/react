@@ -8,16 +8,19 @@ import { CounterMultiply } from './components/CounterMultiply';
 import { CounterSquare } from './components/CounterSquare';
 import{AuthentificatorUpdater} from './components/AuthentificatorUpdater';
 import { useSelector } from 'react-redux';
+import { Login } from './components/Login';
+import { Logout } from './components/Logout';
 
 
 
 function App() {
-  const userName = useSelector<any, string>(state=>state.login.userName);
+  const authUser = useSelector<any, string>(state=>state.auth.authUser);
   return  <div>
-  <AuthentificatorUpdater/>
- {userName && < CounterUpdater operand = {10}/>}
- {userName ==='admin' &&<CounterMultiply factor= {2}/>}
- {userName && <CounterSquare />}
+  {!authUser && <Login/>}
+  {authUser && < CounterUpdater operand = {10}/>}
+  {authUser.includes('admin') &&<CounterMultiply factor= {2}/>}
+  {authUser && <CounterSquare />}
+  {authUser && <Logout />}
   </div>
  
   //   <div id="clock">
