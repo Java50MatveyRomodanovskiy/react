@@ -1,46 +1,26 @@
-import React from 'react';
-//import logo from './logo.svg';
+import { type } from 'os';
+import React, { ReactNode } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './App.css';
-// import { InputTest } from './components/InputTest';
-// import { Timer } from './components/Timer';
-import { CounterUpdater } from './components/CounterUpdater';
-import { CounterMultiply } from './components/CounterMultiply';
-import { CounterSquare } from './components/CounterSquare';
-import{AuthentificatorUpdater} from './components/AuthentificatorUpdater';
-import { useSelector } from 'react-redux';
-import { Login } from './components/Login';
-import { Logout } from './components/Logout';
-
-
+import { Cell } from './components/Cell';
+import { CellType } from './model/CellType';
+import { gameActions } from './redux/gameSlice';
 
 function App() {
-  const authUser = useSelector<any, string>(state=>state.auth.authUser);
-  return  <div>
-  {!authUser && <Login/>}
-  {authUser && < CounterUpdater operand = {10}/>}
-  {authUser.includes('admin') &&<CounterMultiply factor= {2}/>}
-  {authUser && <CounterSquare />}
-  {authUser && <Logout />}
-  </div>
- 
-  //   <div id="clock">
-  //     <div id="clock-block">
-  //   <Timer cityCountry= {initialCity[0]}/>
-  //   <Timer cityCountry={initialCity[1]}/>
-  //   </div>
-  //   <div id="clock-block">
-  //   <Timer cityCountry={initialCity[2]}/>
-  //   <Timer cityCountry={initialCity[3]}/>
-  //   </div>
-  //   {/* <Timer cityCountry='Tokyo'/>
-  //   <Timer cityCountry='Moscow'/>
-  //   <Timer cityCountry='Maldives'/>
-  //   <Timer cityCountry='Jerusalem'/> */}
-  //     </div>
-   
- ;
+    const cells = useSelector<any, CellType[] |string>(state=>state.gameRow.cells);
+    const dispatch = useDispatch();
+    function getRow(): ReactNode {
+      if(typeof cells == "string") {
+        return <p>Game is over</p>
+      }
+          return cells.map(cell => <Cell width={'5vw'} cell={cell}
+           clickFn={function (id: number): void {
+           dispatch(gameActions.move(id))
+          } }/>)
+    }
+ return <div style={{display:'flex'}}>
+      {getRow()}
+ </div>
 }
-  
-  export default App;
- 
 
+export default App;
