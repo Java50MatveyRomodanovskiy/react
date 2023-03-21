@@ -4,16 +4,10 @@ import { getRandomElement } from "../util/random";
 import GameRowSimpleColors from "./GameRowSimpleColors";
 
 export default class GameRowSwapColors extends GameRowSimpleColors{
-    row: CellType[];
     firstIndex: number = - 1;
     count: number = 0;
     constructor(nCells: number) {
         super(nCells);
-        this.row = Array.from({length: nCells})
-        .map((__, index) => (
-            {cellColor: getRandomElement(getColors()) as string, borderColor: "black",
-            cellContent:'', id: index
-            }) );
     }
     getInitialRow(): CellType[] {
        return this.row;
