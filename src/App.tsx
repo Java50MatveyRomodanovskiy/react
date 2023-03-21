@@ -1,10 +1,8 @@
 import { type } from 'os';
 import React, { ReactNode } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+
 import './App.css';
-import { Cell } from './components/Cell';
-import { CellType } from './model/CellType';
-import { gameActions } from './redux/gameSlice';
+
 
 function App() {
     const cells = useSelector<any, CellType[] |string>(state=>state.gameRow.cells);
