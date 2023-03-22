@@ -1,9 +1,10 @@
 import { CSSProperties } from 'react';
-import {dimensions} from '../config/lifeGameConfig.json'
+import lifeGameConfig from '../config/lifeGameConfig.json'
 type Props = {
     row: number[]
 }
 export const Row: React.FC<Props> = ({row}) => {
+    const {dimensions} = lifeGameConfig;
     function getSize() : number {
         return Math.min(window.innerWidth, window.innerHeight)/ dimensions - 2;
     }
@@ -17,7 +18,8 @@ export const Row: React.FC<Props> = ({row}) => {
         return row.map((value, index) => 
         <div style ={getStyle(value)} key={index}></div>)
     }
-    return <div style ={{display: "flex", flexDirection: "row"}}>
 
+    return <div style ={{display: "flex", flexDirection: "row"}}>
+        {getDivs()}
     </div>
 }
