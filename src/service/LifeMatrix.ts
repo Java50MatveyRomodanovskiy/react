@@ -3,53 +3,35 @@ import { getRandomMatrix } from "../util/random";
 export default class LifeMatrix {
     constructor(private _numbers: number[][]) { }
     get numbers() {
-        this._numbers = getRandomMatrix(this._numbers.length, this._numbers.length, 0, 1);
+        if (this._numbers.length = 0){
+            this._numbers = getRandomMatrix(this._numbers.length, this._numbers.length, 0, 1);
+        }
         return this._numbers;
+
     }
+    
     nextStep(): number[][] {
-
-        const nextMatrix: number[][] = getRandomMatrix(this._numbers.length, this._numbers.length, 0, 1);
-
-
-        for (let i = 0; i < this._numbers.length; i++) {
-            for (let j = 0; j < this._numbers.length; j++) {
-                const aliveNumbers: number = getAliveNeihgboursNumbers(this._numbers, i, j);
-                nextMatrix[i][j] = 0;
-                if (this._numbers[i][j] && aliveNumbers >= 2 && aliveNumbers <= 3) {
-                    nextMatrix[i][j] = 1;
-                }
-                if (!this._numbers[i][j] && aliveNumbers === 3) {
-                    nextMatrix[i][j] = 1;
-                }
-            }
-        }
-        this._numbers = nextMatrix;
-        return nextMatrix;
+        this._numbers = this._numbers.map((__, i) => this.getNewRow(i));
+        return  this._numbers;
     }
-
-}
-
-function getAliveNeihgboursNumbers(matrix: number[][], i: number, j: number): number {
-    let res: number = 0;
-    const neighboursCoordinates = [0, 0, 0, 0] //Array with initial coordinates [0] - x_start, [1] - y_start, [2] - x_end, [3] - y_end 
-    neighboursCoordinates[0] = i - 1;
-    neighboursCoordinates[0] = neighboursCoordinates[0] < 0 ? i : neighboursCoordinates[0];
-    neighboursCoordinates[1] = j - 1;
-    neighboursCoordinates[1] = neighboursCoordinates[1] < 0 ? j : neighboursCoordinates[1];
-    neighboursCoordinates[2] = i + 1;
-    neighboursCoordinates[2] = neighboursCoordinates[2] < matrix.length ? neighboursCoordinates[2] : i;
-    neighboursCoordinates[3] = j + 1;
-    neighboursCoordinates[3] = neighboursCoordinates[3] < matrix.length ? neighboursCoordinates[3] : j;
-    if (matrix[i][j]) {
-        res = -1
-    };
-    for (let x = neighboursCoordinates[0]; x <= neighboursCoordinates[2]; x++) {
-        for (let y = neighboursCoordinates[1]; y <= neighboursCoordinates[3]; y++) {
-            if (matrix[x][y]) {
-                res++
-            }
-        }
+    getNewRow(i: number): number[] {
+        return this._numbers[i].map((__, j) => this.getNewCell(i,j));
     }
+    getNewCell(i: number, j: number): number {
+        let res: number = 0;
+        if((this._numbers[i][j] && (this.getAliveNeihgboursNumbers(i,j) === 2)) || this.getAliveNeihgboursNumbers(i,j) === 3){
+            res = 1;
+        }
+        return res;
+    }
+    getAliveNeihgboursNumbers(i: number, j: number): number {
+        const iL = Math.abs((i-1)+ this._numbers.length) % this._numbers.length;
+        const iR = Math.abs((i+1)+this._numbers.length) % this._numbers.length;
+        const jL = Math.abs((j-1)+this._numbers.length) % this._numbers.length;
+        const jR = Math.abs((j+1)+this._numbers.length) % this._numbers.length;
+        return [this._numbers[iL][jL], this._numbers[i][jL], this._numbers[iR][jL],
+                this._numbers[iL][j],                           this._numbers[iR][j],
+                this._numbers[iL][jR],this._numbers[i][jR], this._numbers[iR][jR]].reduce((a,b) => a+b,0);
 
-    return res;
+    }
 }
