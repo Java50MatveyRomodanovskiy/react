@@ -1,13 +1,12 @@
-import { type } from 'os';
-import React, { ReactNode } from 'react';
-import './App.css';
-import { Life } from './components/Life';
-
+import { BrowserRouter} from 'react-router-dom';
+import Router from './routes';
 
 function App() {
- return <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-   <Life />
- </div>
+ return( <BrowserRouter>
+  <div className='App'>
+    <Router/>
+  </div>
+  </BrowserRouter>
+  );
 }
-
 export default App;
