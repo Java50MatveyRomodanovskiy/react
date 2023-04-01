@@ -1,34 +1,31 @@
-import { NavLink, Outlet } from "react-router-dom"
+import { ReactNode, useEffect } from "react"
+import { NavLink, Outlet, useNavigate } from "react-router-dom"
+import { RouteType } from "../../model/RouteType"
 import './navigators.css'
-export const Navigator: React.FC = () => {
-    return <div>
-        <nav> <Outlet />
-            <ul className="navigator-list">
-                <li className="navigator-item">
-                    <NavLink to='/'>Home</NavLink>
-                </li>
-                <li className="navigator-item">
-                    <NavLink to='/orders'>Orders</NavLink>
-                </li> 
-                <li className="navigator-item">
-                    <NavLink to='/customers'>Customers</NavLink>
-                </li> 
-                <li className="navigator-item">
-                    <NavLink to='/shoppingcart'>ShoppingCart</NavLink>
-                </li> 
-                <li className="navigator-item">
-                    <NavLink to='/products'>Products</NavLink>
-                </li>
-               
-            </ul>         
-                <ul className="navigator-list navigator-sublist">              
-                    <li className="navigator-item">
-                        <NavLink to='/products/dairy'>Dairy Products</NavLink>
-                    </li>
-                    <li className="navigator-item">
-                        <NavLink to='/products/bread'>Bread Products</NavLink>
-                    </li> 
-                </ul>
-            </nav>          
+type Props = {
+    subnav?: boolean,
+    routes: RouteType[]
+}
+export const Navigator: React.FC<Props> = ({ subnav, routes }) => {
+    const navigate = useNavigate();
+    useEffect(() => {
+         if (!subnav){
+            navigate(routes[0].path)
+        }
+         }, [])
+    function getItems(): ReactNode {
+        return routes.map((route, index) =>
+            <li className="navigator-item" key={index}>
+                <NavLink to={route.path}>{route.label}
+                </NavLink></li>)
+    }
+    return <div style={{marginTop:"10vh"}}>
+        <nav>
+          <ul className={`navigator-list ${subnav ? 'navigator-sublist' : ''}`}>
+            {getItems()}
+        </ul>  
+        </nav>
+        
+        <Outlet></Outlet>
     </div>
 }

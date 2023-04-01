@@ -1,19 +1,19 @@
-.navigator-list{
+.navigator-list {
     display: flex;
     flex-direction: row;
     justify-content: center;
     list-style: none;
-    width: 80vw;
+    width: 80vw
 }
-.navigator-item{
-    margin-left: 4vw;
-    font-size: 1.2em;
-}
-.navigator-sublist{
+.navigator-sublist {
     flex-direction: column;
 }
-.active{
+.navigator-item {
+    margin-left: 4vw;
+   font-size: 1.5em;
+}
+.active {
     background-color: blue;
     color: white;
-    font-size: 1.4em;
+    font-size: 1.6em;
 }
