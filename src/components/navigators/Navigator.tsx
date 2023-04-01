@@ -1,4 +1,5 @@
 import { ReactNode, useEffect } from "react"
+import { useSelector } from "react-redux/es/hooks/useSelector"
 import { NavLink, Outlet, useNavigate } from "react-router-dom"
 import { RouteType } from "../../model/RouteType"
 import './navigators.css'
@@ -8,9 +9,11 @@ type Props = {
 }
 export const Navigator: React.FC<Props> = ({ subnav, routes }) => {
     const navigate = useNavigate();
+    const authUser = useSelector<any,string>(state=>state.auth.authUser);
     useEffect(() => {
          if (!subnav){
-            navigate(routes[0].path)
+            let i = (authUser === '') ? 0 : 1;
+            navigate(routes[i].path)
         }
          }, [])
     function getItems(): ReactNode {

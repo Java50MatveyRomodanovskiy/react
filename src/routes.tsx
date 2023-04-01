@@ -7,11 +7,10 @@ import { Orders } from './components/pages/Orders';
 import { ShoppingCart } from './components/pages/ShoppingCart';
 import { Navigator } from './components/navigators/Navigator';
 import { useRoutes } from 'react-router-dom';
-
 export default function Router() {
-
+    
     let element = useRoutes([
-        {   element: <Navigator />,
+        {   element: <Navigator routes={[]} />,
             children: [
                 { path: '/', element: <Home /> },
                 { path: 'customers', element: <Customers /> },

@@ -15,12 +15,14 @@ import { routes } from './config/layout-config'
 import { Navigator } from './components/navigators/Navigator';
 import { routesProduct } from './config/products-config';
 import { NavigatorDesktop } from './components/navigators/NavigatorDesktop';
+import { Login } from './components/pages/Login';
+import { Logout } from './components/pages/Logout';
 
 function App() {
-
      return <BrowserRouter>
           <Routes>
                <Route path='/' element={<NavigatorDesktop routes={routes} />}>
+                    <Route path='/login' element={<Login />} />
                     <Route index element={<Home />} />
                     <Route path='customers' element={<Customers />} />
                     <Route path='orders' element={<Orders />} />
@@ -28,17 +30,10 @@ function App() {
                     <Route path='products' element={<Navigator subnav routes={routesProduct} />}>
                          <Route path='dairy' element={<Dairy />} />
                          <Route path='bread' element={<Bread />} />
-                        
-
                     </Route>
+                    <Route path='/logout' element={<Logout />} />
                </Route>
-
-
-
-
-
                <Route path='/*' element={<NotFound />} />
-
           </Routes>
      </BrowserRouter>
 }
