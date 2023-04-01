@@ -9,6 +9,7 @@ import { Navigator } from './components/navigators/Navigator';
 import { useRoutes } from 'react-router-dom';
 
 export default function Router() {
+
     let element = useRoutes([
         {   element: <Navigator />,
             children: [
