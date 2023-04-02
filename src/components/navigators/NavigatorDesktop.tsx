@@ -23,11 +23,11 @@ export const NavigatorDesktop: React.FC<Props> = ({subnav, routes}) => {
     function getSecRoutes(): RouteType[]{
       let newRoutes: RouteType[] = [];
       if (authUser === '') {
-          newRoutes = [routes[0],routes[5]];          
+          newRoutes = routes.filter(r => r.no_authenticated);          
       } else if (authUser.toLowerCase().includes('admin')){
-       newRoutes = routes.slice(1); 
+       newRoutes = routes.filter(r => r.admin); 
       } else {    
-          newRoutes = [routes[1], ...routes.slice(3,routes.length)]
+          newRoutes = routes.filter(r => r.authenticated); 
       }
           return newRoutes;
   }
