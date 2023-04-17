@@ -26,8 +26,16 @@ export const NavigatorDesktop: React.FC<Props> = ({subnav, routes}) => {
           newRoutes = routes.filter(r => r.no_authenticated);          
       } else if (authUser.toLowerCase().includes('admin')){
        newRoutes = routes.filter(r => r.admin); 
+       const logoutRes = newRoutes.find(r => r.path.includes("logout"));
+       if(logoutRes){
+        logoutRes.label = authUser;
+      }
       } else {    
           newRoutes = routes.filter(r => r.authenticated); 
+          const logoutRes = newRoutes.find(r => r.path.includes("logout"));
+          if(logoutRes){
+            logoutRes.label = authUser;
+          }
       }
           return newRoutes;
   }
@@ -39,7 +47,7 @@ export const NavigatorDesktop: React.FC<Props> = ({subnav, routes}) => {
   }
  return <Box sx={{marginTop: "10vh"}}>
     <AppBar sx={{backgroundColor: "lightgray"}}>
-        <Tabs value={value} onChange={handleChange}>
+        <Tabs value={value > routes.length ? 0 : value} onChange={handleChange}>
             {getTabs()}
         </Tabs>
     </AppBar>

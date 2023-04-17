@@ -13,7 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LoginData } from '../../model/LoginData';
-type Props = {submitFn: (loginData: LoginData) => void};
+import { Alert, Chip, Collapse, Divider, formControlClasses, IconButton } from '@mui/material';
+import { current } from '@reduxjs/toolkit';
+type Props = { submitFn: (loginData: LoginData) => void };
 
 function Copyright(props: any) {
   return (
@@ -30,15 +32,16 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function SignIn({submitFn} : Props){
+export default function SignIn({ submitFn }: Props) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get('email') as string;
-    const password = data.get('password') as string; 
-    const loginData: LoginData = {email, password};
+    const password = data.get('password') as string;
+    const loginData: LoginData = { email, password };
     submitFn(loginData);
   };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -102,12 +105,37 @@ export default function SignIn({submitFn} : Props){
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
+
+            </Grid>
+            <Grid item >
+
+              <Divider>
+                <Chip label="OR" sx={{ mt: 3, mb: 2 }} />
+              </Divider>
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, justifyContent: 'center', alignItems: 'center' }}
+                onClick={() => {
+                  const loginData: LoginData = { email: "GOOGLE", password: '' };
+                  submitFn(loginData);
+                }}
+              >
+                Sign In With Google
+              </Button>
             </Grid>
           </Box>
+
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
+}
+
+function setOpen(arg0: boolean) {
+  throw new Error('Function not implemented.');
 }
 
