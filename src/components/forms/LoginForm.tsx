@@ -15,8 +15,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LoginData } from '../../model/LoginData';
 import { Alert, Chip, Collapse, Divider, formControlClasses, IconButton } from '@mui/material';
 import { current } from '@reduxjs/toolkit';
+import { codeActions, codeReducer } from '../../redux/codeSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import  googleButtn  from "../../btn_google_signin_light_focus_web.png";
 type Props = { submitFn: (loginData: LoginData) => void };
-
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -41,8 +43,8 @@ export default function SignIn({ submitFn }: Props) {
     const loginData: LoginData = { email, password };
     submitFn(loginData);
   };
-
-
+  const code = useSelector<any,string>(state => state.codeState.code);
+  const dispatch = useDispatch();
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -108,23 +110,24 @@ export default function SignIn({ submitFn }: Props) {
 
             </Grid>
             <Grid item >
-
+            {code !== 'OK' && <Alert severity="error" onClose={() => {
+             dispatch(codeActions.set('OK')) ;
+            }}>Error: {code}, sign in again</Alert>}
               <Divider>
                 <Chip label="OR" sx={{ mt: 3, mb: 2 }} />
               </Divider>
 
               <Button
-                type="submit"
                 fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2, justifyContent: 'center', alignItems: 'center' }}
+              //  variant="contained"
+              //  sx={{ mt: 3, mb: 2, justifyContent: 'center', alignItems: 'center' }}
                 onClick={() => {
                   const loginData: LoginData = { email: "GOOGLE", password: '' };
                   submitFn(loginData);
                 }}
-              >
-                Sign In With Google
-              </Button>
+              ><img src={googleButtn}
+                alt ='Sign In With Google'
+              ></img>              </Button>
             </Grid>
           </Box>
 

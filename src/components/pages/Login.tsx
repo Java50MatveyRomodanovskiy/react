@@ -10,9 +10,9 @@ export const Login: React.FC = () => {
     async function loginFn(loginData: LoginData){
         try{
             const email: string = await authService.login(loginData);
-        localStorage.setItem(AUTH_USER_ITEM, email);
-        dispatch(authActions.login(email));
-        dispatch(codeActions.set("OK"));
+            localStorage.setItem(AUTH_USER_ITEM, email);
+            dispatch(authActions.login(email));
+            dispatch(codeActions.set("OK"));
         } catch (error) {
             dispatch(codeActions.set("Wrong Credencials"))
         }
