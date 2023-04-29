@@ -1,27 +1,33 @@
 import React, { ReactNode, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import { Bread } from './components/pages/Bread';
+
 import { Customers } from './components/pages/Customers';
-import { Dairy } from './components/pages/Dairy';
+
 import { Home } from './components/pages/Home';
 import { NotFound } from './components/pages/NotFound';
 import { Orders } from './components/pages/Orders';
 import { Products } from './components/pages/Products';
 import { ShoppingCart } from './components/pages/ShoppingCart';
 import { routes } from './config/layout-config'
-import { Navigator } from './components/navigators/Navigator';
-import { routesProduct } from './config/products-config';
+
 import { NavigatorDesktop } from './components/navigators/NavigatorDesktop';
 import { Login } from './components/pages/Login';
 import { Logout } from './components/pages/Logout';
 import { productsService } from './config/products-service-config';
 import { ProductType } from './model/ProductType';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { productsActions } from './redux/productsSlice';
+import { Subscription } from 'rxjs';
+import { AUTH_USER_ITEM } from './config/auth-service-config';
+import { ordersService } from './config/order-service-config';
+import { shoppingActions } from './redux/shoppingSlice';
+import { ShoppingProductType } from './model/ShoppingProductType';
 
 function App() {
      const dispatch = useDispatch();
+     const authUser = useSelector<any,string>(state=>state.auth.authUser);
+     const shopping = useSelector<any,ShoppingProductType[]>(state => state.shoppingState.shopping);
      useEffect(() => {
           const subscription = productsService.getProducts()
           .subscribe({
@@ -31,7 +37,22 @@ function App() {
                }
           })
           return () => subscription.unsubscribe();
-     })
+     }, []);
+     useEffect(() => {
+          let subscription: Subscription;
+          if (authUser != '' && !authUser.includes("admin")) {
+               subscription = ordersService.getShoppingCart(authUser).subscribe ({
+                    next: (shopping) => dispatch(shoppingActions.setShopping(shopping))
+               })
+          } else {
+               dispatch(shoppingActions.resetShopping());
+          }
+          return () => {
+               if (subscription) {
+                    subscription.unsubscribe();
+               }
+          }
+     }, [authUser]);
      return <BrowserRouter>
           <Routes>
                <Route path='/' element={<NavigatorDesktop routes={routes} />}>

@@ -3,5 +3,5 @@ export type RouteType = {
     label: string,
     authenticated: boolean, 
     admin: boolean,
-    no_authenticated: boolean
+    no_authenticated: boolean,
 }
