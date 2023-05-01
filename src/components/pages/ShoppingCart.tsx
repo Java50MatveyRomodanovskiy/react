@@ -19,7 +19,7 @@ export const ShoppingCart: React.FC = () => {
         const curProd: ProductType | undefined  = products.find(pr => pr.id == p.id);
         let curItem: ShoppingCartType = {id: "delete", title: 'curProd!.title', category: "curProd!.category", unit: "curProd!.category", cost: 0, image: "curProd!.image", count: 0, sum: 0};
         if (curProd){
-        curItem = {id: i +'', title: curProd!.title, category: curProd!.category, unit: curProd!.category, cost: curProd!.cost, image: curProd!.image, count: p.count, sum: (curProd!.cost * p.count).toFixed(2)}
+        curItem = {id: i +'', title: curProd!.title, category: curProd!.category, unit: curProd!.category, cost: curProd!.cost, image: curProd!.image, count: p.count, sum: Math.trunc((curProd!.cost * p.count)*100)/100}
         } 
     
         return curItem;
