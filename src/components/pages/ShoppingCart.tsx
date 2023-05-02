@@ -12,11 +12,11 @@ export const ShoppingCart: React.FC = () => {
     const authUser = useSelector<any, string>(state => state.auth.authUser);
     const products: ProductType[] = useSelector<any, ProductType[]>(state => state.productsState.products);
     function getTableData(): ShoppingCartType[]{
-        return shopping.map((p,index) => getColumn(p, index)).filter(p => p.id != "delete");
+        return shopping.map((p,index) => getColumn(p, index)).filter(p => p.id != undefined);
     }
     function getColumn(p: ShoppingProductType, i: number): ShoppingCartType {
         const curProd: ProductType | undefined  = products.find(pr => pr.id == p.id);
-        let curItem: ShoppingCartType = {id: "delete", title: 'curProd!.title', category: "curProd!.category", unit: "curProd!.category", cost: 0, image: "curProd!.image", count: 0, sum: 0};
+        let curItem: ShoppingCartType = {id: undefined, title: 'curProd!.title', category: "curProd!.category", unit: "curProd!.category", cost: 0, image: "curProd!.image", count: 0, sum: 0};
         if (curProd){
         curItem = {id: i +'', title: curProd!.title, category: curProd!.category, unit: curProd!.category, cost: curProd!.cost, image: curProd!.image, count: p.count, sum: Math.trunc((curProd!.cost * p.count)*100)/100}
         } else {
