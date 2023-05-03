@@ -11,11 +11,13 @@ import { Observable } from "rxjs";
 export const PRODUCTS_COLLECTION = "products";
 export const CATEGORIES_COLLECTION = "categories";
 export class ProductsServiceFirebase implements ProductsService {
-   
     productsCollection = collection(getFirestore(firebaseApp), PRODUCTS_COLLECTION);
     categoriesCollection = collection(getFirestore(firebaseApp), CATEGORIES_COLLECTION);
     async addProduct(product: ProductType): Promise<void> {
         product.id = getRandomNumber(100000, 999999).toString();
+        await setDoc(doc(this.productsCollection, product.id), product);
+    }
+    async editProduct(product: ProductType): Promise<void> {
         await setDoc(doc(this.productsCollection, product.id), product);
     }
     async addCategory(category: CategoryType): Promise<void> {
