@@ -3,7 +3,6 @@ import { Alert, Avatar, Box, Snackbar } from "@mui/material"
 import {DataGrid, GridActionsCellItem, GridColDef} from "@mui/x-data-grid"
 import { useState, useRef } from "react"
 import { useSelector } from "react-redux"
-import { ordersService } from "../../config/order-service-config"
 import { productsService } from "../../config/products-service-config"
 import { ProductType } from "../../model/ProductType"
 export const ProductsAdmin: React.FC = () => {
@@ -28,7 +27,7 @@ export const ProductsAdmin: React.FC = () => {
     async function updatePrice(newRow: any, oldRow: any): Promise<any> {
         const rowData: ProductType = newRow;
         if (rowData.cost > 1.5 * oldRow.cost) {
-            throw 'count must be less than 50% expensive'
+            throw 'new price must be less than 50% expensive'
         }
         await productsService.editProduct(rowData)
         return newRow;
