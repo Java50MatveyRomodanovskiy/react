@@ -11,4 +11,5 @@ export default interface ProductsService {
     editProduct(product: ProductType):Promise<void>;
     setProducts(): Promise<number>;
     getProducts(): Observable<ProductType[]>
+    getCategories():Observable<CategoryType[]>
 }

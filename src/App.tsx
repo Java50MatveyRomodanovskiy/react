@@ -23,6 +23,8 @@ import { AUTH_USER_ITEM } from './config/auth-service-config';
 import { ordersService } from './config/order-service-config';
 import { shoppingActions } from './redux/shoppingSlice';
 import { ShoppingProductType } from './model/ShoppingProductType';
+import { CategoryType } from './model/CategoryType';
+import { categoriesActions } from './redux/categoriesSlice';
 
 function App() {
      const dispatch = useDispatch();
@@ -53,6 +55,16 @@ function App() {
                }
           }
      }, [authUser]);
+     useEffect(() => {
+          const subscription = productsService.getCategories()
+          .subscribe({
+               next: (categories: CategoryType[]) => {
+                    console.log(categories);
+                    dispatch(categoriesActions.setCategories(categories))
+               }
+          })
+          return () => subscription.unsubscribe();
+     }, []);
      return <BrowserRouter>
           <Routes>
                <Route path='/' element={<NavigatorDesktop routes={routes} />}>
