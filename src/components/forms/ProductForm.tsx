@@ -13,11 +13,6 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
     const alertMessage = useRef<string>('');
     const [product, setProduct] = useState<ProductType>(initialProduct);
     const categories = useSelector<any, CategoryType[]>(state => state.categoriesState.categories);
-    const category = useRef<string>('');
-    const image = useRef<string>('');
-    const title = useRef<string>('');
-    const unit = useRef<string>('');
-    const cost = useRef<number>(0);
     function onSubmitFn(event: any) {
         event.preventDefault();
         product.title = product.title.trim()
@@ -30,27 +25,22 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
     }
     function imageHandler(event: any) {
         const urlImage = event.target.value;
-        image.current = urlImage;
         setProduct({ ...product, image: urlImage });
     }
     function titleHandler(event: any) {
         const titleNew = event.target.value;
-        title.current = titleNew;
         setProduct({ ...product, title: titleNew});
     }
     function categoryHandler(event: any) {
         const categoryNew = event.target.value;
-        category.current = categoryNew;
         setProduct({ ...product, category: categoryNew });
     }
     function unitHandler(event: any) {
         const unitNew = event.target.value;
-        unit.current = unitNew;
         setProduct({ ...product, unit: unitNew });
     }
     function costHandler(event: any) {
         const costNew = event.target.value;
-        cost.current = costNew;
         setProduct({ ...product, cost: costNew });
     }
     return <Box>
@@ -61,7 +51,7 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
                         onChange={imageHandler} />
                 </Grid>
                 <Grid item xs={5}>
-                    {image.current && <CardMedia sx={{ height: '30vw' }} image={image.current} />}
+                    {product.image && <CardMedia sx={{ height: '30vw' }} image={product.image} />}
 
                 </Grid>
                 <Grid item xs={4}>
