@@ -8,6 +8,7 @@ import {getFirestore, collection, getDocs, getDoc, deleteDoc, setDoc, getCountFr
  from "firebase/firestore";
 import { getRandomNumber } from "../util/random";
 import { Observable } from "rxjs";
+import { useSelector } from "react-redux";
 export const PRODUCTS_COLLECTION = "products";
 export const CATEGORIES_COLLECTION = "categories";
 export class ProductsServiceFirebase implements ProductsService {
@@ -17,7 +18,7 @@ export class ProductsServiceFirebase implements ProductsService {
     productsCollection = collection(getFirestore(firebaseApp), PRODUCTS_COLLECTION);
     categoriesCollection = collection(getFirestore(firebaseApp), CATEGORIES_COLLECTION);
     async addProduct(product: ProductType): Promise<void> {
-        product.id = getRandomNumber(100000, 999999).toString();
+             product.id = getRandomNumber(100000, 999999).toString();
         await setDoc(doc(this.productsCollection, product.id), product);
     }
     async editProduct(product: ProductType): Promise<void> {
@@ -41,7 +42,7 @@ export class ProductsServiceFirebase implements ProductsService {
         console.log(`Collection ${PRODUCTS_COLLECTION} contains ${count} products`)
         if (count == 0) {
             const products: ProductType[] = productsConfig.map(pc => {
-                const category = pc.name.split("-")[0];
+                const category = pc.name.split("-")[0].trim();
                 return {category,cost: pc.cost,image: pc.name + ".jpg",
                 title: pc.name,unit: pc.unit};
             })
@@ -62,3 +63,8 @@ export class ProductsServiceFirebase implements ProductsService {
         return collectionData(this.productsCollection) as Observable<ProductType[]>
     }
 }
+
+
+
+
+

@@ -40,12 +40,20 @@ export const ProductsAdmin: React.FC = () => {
         return newRow;
     }
     function submitAddProduct(product: ProductType): string {
-        productsService.addProduct(product);
+        let errorMessage = '';
+        const isProdNotExists = (products.find(p => p.title === product.title && product.category === p.category && product.unit === p.unit));
+        if (!isProdNotExists){
+            productsService.addProduct(product);
         setFLADD(false);
-        return '';
+        }
+        else {
+            errorMessage = 'This product already exists in database'
+        }
+        return errorMessage;
     }
-    return !flADD ? <Box sx={{ width: "80vw", height: "60vh", justifyContent: 'center', alignItems: 'center' }}>
-    <Box sx={{ width: "80vw", height: "60vh" }}>
+    return !flADD ? <Box sx={{width: "100vw",display: "flex",
+    flexDirection: "column", justifyContent:"center", alignItems: "center"}}>
+       <Box sx={{width: "80vw",height: "60vh"}}>
         <DataGrid columns={columns} rows={products} getRowHeight={() => 'auto'}
             processRowUpdate={updatePrice}
             onProcessRowUpdateError={(error) => {

@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Grid, InputLabel, MenuItem, NativeSelect, Select, TextField } from "@mui/material";
+import { Alert, Avatar, Box, Button, CardMedia, Grid, InputLabel, MenuItem, NativeSelect, Select, Snackbar, TextField } from "@mui/material";
 import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { CategoryType } from "../../model/CategoryType";
@@ -9,6 +9,8 @@ type Props = {
 }
 const initialProduct: ProductType = { category: '', image: '', cost: 0, title: ' ', unit: '' };
 export const ProductForm: React.FC<Props> = ({ submitFn }) => {
+    const [open, setOpen] = useState<boolean>(false);
+    const alertMessage = useRef<string>('');
     const [product, setProduct] = useState<ProductType>(initialProduct);
     const categories = useSelector<any, CategoryType[]>(state => state.categoriesState.categories);
     const category = useRef<string>('');
@@ -18,9 +20,12 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
     const cost = useRef<number>(0);
     function onSubmitFn(event: any) {
         event.preventDefault();
-        const errorMessage = submitFn(product);
-        if (!errorMessage) {
-            document.querySelector('form')!.reset();
+        product.title = product.title.trim()
+        alertMessage.current = submitFn(product);
+        if (!alertMessage.current) {
+            document.querySelector('form')!.reset(); 
+        }else{
+            setOpen(true);
         }
     }
     function imageHandler(event: any) {
@@ -31,7 +36,7 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
     function titleHandler(event: any) {
         const titleNew = event.target.value;
         title.current = titleNew;
-        setProduct({ ...product, title: titleNew });
+        setProduct({ ...product, title: titleNew});
     }
     function categoryHandler(event: any) {
         const categoryNew = event.target.value;
@@ -56,7 +61,8 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
                         onChange={imageHandler} />
                 </Grid>
                 <Grid item xs={5}>
-                    {image.current && <Avatar src={image.current} sx={{ width: '20vw', height: '20vw' }} />}
+                    {image.current && <CardMedia sx={{ height: '30vw' }} image={image.current} />}
+
                 </Grid>
                 <Grid item xs={4}>
                     <TextField label='Title' required fullWidth value={product.title}
@@ -79,9 +85,17 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
                 <Grid item xs={2}>
                     <TextField label="cost" fullWidth required type="number"
                         onChange={costHandler} value={product.cost}
-                        helperText={`enter salary in range [${productsParameters.minCost}-${productsParameters.maxCost}]`}
-                        inputProps={{min: `${productsParameters.minCost}`, max: `${productsParameters.maxCost}`
+                        helperText={`enter price in range [${productsParameters.minCost}-${productsParameters.maxCost}]`}
+                        inputProps={{
+                            min: `${productsParameters.minCost}`, max: `${productsParameters.maxCost}`
                         }} />
+                </Grid>
+                <Grid>
+                <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
+                    <Alert severity="error" sx={{ width: '30vw', fontSize: '1.5em' }}>
+                        {alertMessage.current}
+                    </Alert>
+                </Snackbar>
                 </Grid>
                 <Grid item container spacing={5} justifyContent={'center'} xs={12}>
                     <Grid item xs={6}>
@@ -92,7 +106,6 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
                     </Grid>
                 </Grid>
             </Grid>
-
         </form>
     </Box>
 }
