@@ -105,7 +105,7 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
                         onChange={costHandler} value={product.cost}
                         helperText={`enter price in range [${productsParameters.minCost}-${productsParameters.maxCost}]`}
                         inputProps={{
-                            min: `${productsParameters.minCost}`, max: `${productsParameters.maxCost}`
+                            min: `${productsParameters.minCost}`, max: `${productsParameters.maxCost}`, step: 0.01
                         }} />
                 </Grid>
                 <Grid>
