@@ -25,6 +25,7 @@ import { shoppingActions } from './redux/shoppingSlice';
 import { ShoppingProductType } from './model/ShoppingProductType';
 import { CategoryType } from './model/CategoryType';
 import { categoriesActions } from './redux/categoriesSlice';
+import { ordersActions } from './redux/ordersSlice';
 
 function App() {
      const dispatch = useDispatch();
@@ -65,6 +66,20 @@ function App() {
           })
           return () => subscription.unsubscribe();
      }, []);
+     useEffect(() => {
+          let subscription: Subscription;
+          if (authUser) {
+               subscription = authUser.includes('admin') ? ordersService.getAllOrders()
+               .subscribe({
+                    next: (orders) => dispatch(ordersActions.setOrders(orders))
+               }) : ordersService.getCustomerOrders(authUser)
+               .subscribe({
+                    next: (orders) => dispatch(ordersActions.setOrders(orders))
+               })
+          }
+          return () => subscription && subscription.unsubscribe();
+     }, [authUser])
+
      return <BrowserRouter>
           <Routes>
                <Route path='/' element={<NavigatorDesktop routes={routes} />}>

@@ -1,4 +1,6 @@
 import { Observable } from "rxjs";
+import { OrderType } from "../model/OrderType";
+import { ShoppingDataType } from "../model/ShoppingDataType";
 import { ShoppingProductType } from "../model/ShoppingProductType";
 
 export default interface OrderService {
@@ -7,5 +9,8 @@ export default interface OrderService {
     removeShoppingProduct(collectionName: string, id: string): Promise<void>;
     removeShoppingProductUnit(collectionName: string, id: string): Promise<void>;
     getShoppingCart(collectionName: string): Observable<ShoppingProductType[]>;
-    
+    createOrder(email: string, shopping: ShoppingDataType[]): Promise<void>;
+    getCustomerOrders(email:string): Observable<OrderType[]>;
+    getAllOrders(): Observable<OrderType[]>;
+    setOrder(order: OrderType): Promise<void>; 
 }

@@ -83,7 +83,7 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
                         <MenuItem value="">
                             Category
                         </MenuItem>
-                        {categories.map(cat => <MenuItem value={cat.name}>{cat.name}</MenuItem>)}
+                        {categories.map((cat, id) => <MenuItem key={id} value={cat.name}>{cat.name}</MenuItem>)}
                     </Select>
 
                 </Grid>
@@ -97,7 +97,7 @@ export const ProductForm: React.FC<Props> = ({ submitFn }) => {
                         <MenuItem value="">
                             Unit
                         </MenuItem>
-                        {productsParameters.units.map(un => <MenuItem value={un}>{un}</MenuItem>)}
+                        {productsParameters.units.map((un, id) => <MenuItem key={id} value={un}>{un}</MenuItem>)}
                     </Select>
                 </Grid>
                 <Grid item xs={2}>

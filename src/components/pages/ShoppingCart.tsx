@@ -4,7 +4,7 @@ import { ShoppingProductType } from "../../model/ShoppingProductType";
 import { useMemo, useRef, useState } from "react";
 import { ordersService } from "../../config/order-service-config";
 import { GridColDef, DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { Avatar, Box, Typography, Snackbar, Alert } from "@mui/material";
+import { Avatar, Box, Typography, Snackbar, Alert, Button } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
 type ShoppingDataType = ProductType & { count: number, price: number }
@@ -86,7 +86,7 @@ export const ShoppingCart: React.FC = () => {
                 {alertMessage.current}
             </Alert>
         </Snackbar>
-
+        <Button onClick={async () => await ordersService.createOrder(authUser, tableData)}>PLACE ORDER</Button>
     </Box>
 
 }
