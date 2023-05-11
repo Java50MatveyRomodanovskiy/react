@@ -28,12 +28,14 @@ export const Orders: React.FC = () => {
 
     const columns: GridColDef[] = [
         { field: "id", headerName: 'id', flex: 0.3 },
-        { field: "email", headerName: 'email', flex: 0.8 },
-        { field: "orderDate", headerName: "orderDate", flex: 0.5, valueFormatter: params => 
-        new Date (params.value.seconds*1000).toISOString().substring(0,10) },
+        { field: "email", headerName: 'email', flex: 0.5 },
+        { field: "productsAmount", headerName: 'Products amount', flex: 0.3 },
+        { field: "totalCost", headerName: 'Order cost', flex: 0.3 },
+        { field: "orderDate", headerName: "orderDate", flex: 0.5 },
         
-        { field: "deliveryDate", headerName: "deliveryDate", valueFormatter: params => 
-        params.value ? new Date (params.value.seconds*1000).toISOString().substring(0,10): params.value , editable: authUser.includes('admin') ? true : false, flex: 0.4, type: 'date'},
+        { field: "deliveryDate", headerName: "deliveryDate", 
+        valueFormatter: params => params.value ? params.value : params.value, 
+        editable: authUser.includes('admin') ? true : false, flex: 0.4, type: 'date'},
         // { field: "cost", headerName: "Cost (ILS)", flex: 0.3, true, type: 'number' },
         {
             field: 'actions', type: 'actions', flex: 0.1, getActions: (params) => [
@@ -49,11 +51,12 @@ export const Orders: React.FC = () => {
     ]
     async function updateDateDelivery(newRow: any, oldRow: any): Promise<any> {
         const rowData: OrderType = newRow;
-        const today = new Date();
-        const dateDelivery : Date = rowData.deliveryDate as Date;
-        if (today.toISOString().substring(0,10).localeCompare(dateDelivery.toISOString().substring(0,10)) > 0)  {
-            throw 'new date delivered cannot be in the past'
-        }
+        rowData.deliveryDate = (rowData.deliveryDate as Date).toISOString().substring(0,10);
+ //       console.log(rowData.deliveryDate);
+        const today = new Date().toISOString().substring(0,10);
+ //       if (today.localeCompare(rowData.deliveryDate) < 0 || rowData.deliveryDate.localeCompare(rowData.orderDate) < 0)  {
+//            throw 'new date delivered must be beetween order date and today'
+ //       }
        await ordersService.setOrder(rowData)
        return newRow;
     }

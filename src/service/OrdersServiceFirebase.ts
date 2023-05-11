@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable, reduce } from "rxjs";
 import { ShoppingProductType } from "../model/ShoppingProductType";
 import {collection, getFirestore, doc, getDoc, setDoc, deleteDoc, DocumentData, 
     DocumentReference, CollectionReference, query, where} from "firebase/firestore";
@@ -53,7 +53,8 @@ export default class OrdersServiceFirebase implements OrderService {
        return collectionData(collectionRef);
     }
     async createOrder(email: string, shopping: ShoppingDataType[]): Promise<void> {
-        const order: OrderType = {id: getOrderId(), email, orderDate: new Date(), deliveryDate: '', shopping};
+        const order: OrderType = {id: getOrderId(), email, orderDate: new Date().toISOString().substring(0,10), deliveryDate: '', shopping, productsAmount: shopping.length, totalCost: 0 };
+        order.totalCost = shopping.reduce ((acc, curVal) => Math.trunc(curVal.count * curVal.cost * 100) / 100 + acc, 0);
         for (let i=0; i < shopping.length; i++){
           await  this.removeShoppingProduct(email, shopping[i].id!);
         }
