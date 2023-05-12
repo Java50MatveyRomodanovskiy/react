@@ -43,7 +43,7 @@ export class ProductsServiceFirebase implements ProductsService {
         if (count == 0) {
             const products: ProductType[] = productsConfig.map(pc => {
                 const category = pc.name.split("-")[0].trim();
-                return {category,cost: pc.cost,image: pc.name + ".jpg",
+                return {category,cost: pc.cost,image: "images/" + pc.name + ".jpg",
                 title: pc.name,unit: pc.unit};
             })
             for (let i = 0; i < products.length; i++) {

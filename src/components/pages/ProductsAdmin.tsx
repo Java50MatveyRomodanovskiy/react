@@ -16,7 +16,7 @@ export const ProductsAdmin: React.FC = () => {
         {
         field:"image", headerName: '', flex: 0.3, editable: true,
          renderCell: (params) => <Avatar 
-         src={params.value.startsWith("http") || params.value.length > 40? params.value : `images/${params.value}`} 
+         src={params.value.startsWith("http") || params.value.length > 40? params.value : `${params.value}`} 
          sx={{width: "90%", height: "80px"}}/>, align: "center", headerAlign: "center",
         },
         { field: "title", headerName: 'Title', flex: 0.8 },
