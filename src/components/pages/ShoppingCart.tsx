@@ -94,7 +94,7 @@ export const ShoppingCart: React.FC = () => {
                  }}/>
 
         </Box>
-       {id && <ConfirmationDialog dialog={dialog.question} setAgree={setAgree} deleteItems={deleteItems} id={id} setID={setID}/>}
+       {id && <ConfirmationDialog dialog={dialog.question} deleteItems={deleteItems} id={id} setID={setID}/>}
         <Typography variant="h6">Total cost: {total.toFixed(2)}{' '}
             <img src="images/israel-shekel-currency-symbol-svgrepo-com.svg" width="1.5%" /></Typography>
         <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>

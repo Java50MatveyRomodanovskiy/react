@@ -5,18 +5,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 type Props = {dialog: string,
-            setAgree: any,
             deleteItems: any
             id: string
             setID: any
 }
-export const ConfirmationDialog : React.FC<Props> = ({dialog, setAgree, deleteItems, id, setID}) => {
+export const ConfirmationDialog : React.FC<Props> = ({dialog, deleteItems, id, setID}) => {
     const handleCloseDisagree = () => {
-    setAgree(false);
     setID('');
   };
   async function  handleCloseAgree () {
-    setAgree(true);
     deleteItems(id);
     setID('');
     console.log(id);
