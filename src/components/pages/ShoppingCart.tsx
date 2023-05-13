@@ -6,9 +6,13 @@ import { ordersService } from "../../config/order-service-config";
 import { GridColDef, DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Avatar, Box, Typography, Snackbar, Alert, Button } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import ConfirmationDialog from "../ConfirmationDialog";
 
 type ShoppingDataType = ProductType & { count: number, price: number }
 export const ShoppingCart: React.FC = () => {
+    const [isAgree, setAgree] = useState<boolean>(false);
+    const [id, setID] = useState<string>('');
+    const dialog = {question: 'Do you want to delete this product from shopping cart?', id: '' }
     const [open, setOpen] = useState<boolean>(false);
     const alertMessage = useRef<string>('');
     const products = useSelector<any, ProductType[]>(state => state.productsState.products);
@@ -30,12 +34,23 @@ export const ShoppingCart: React.FC = () => {
         { field: 'count', headerName: 'Count', flex: 0.2, editable: true, type: 'number'  },
         { field: 'price', headerName: 'Price', flex: 0.3, type: 'number'  },
         {field: 'actions', type: 'actions', flex: 0.1, getActions: (params) => [
-            <GridActionsCellItem label="remove" icon={<Delete></Delete>}
-             onClick={async () => await 
-                ordersService.removeShoppingProduct(authUser, params.id as string)}/>
+            <GridActionsCellItem label="remove" icon={<Delete></Delete>} 
+             onClick={() => {
+                setID(params.id as string);
+                console.log(id)
+                }
+            }/>
         ]}
     
     ]
+    
+    async function deleteItems(params: string){
+    await ordersService.removeShoppingProduct(authUser, params)
+    setAgree(false);
+    }
+    
+                
+    
     const tableData = useMemo(() => getTableData(), [products, shopping]);
     const total = useMemo(() => getTotalCost(), [tableData]);
     async function updateCount(newRow: any): Promise<any> {
@@ -79,6 +94,7 @@ export const ShoppingCart: React.FC = () => {
                  }}/>
 
         </Box>
+       {id && <ConfirmationDialog dialog={dialog.question} setAgree={setAgree} deleteItems={deleteItems} id={id} setID={setID}/>}
         <Typography variant="h6">Total cost: {total.toFixed(2)}{' '}
             <img src="images/israel-shekel-currency-symbol-svgrepo-com.svg" width="1.5%" /></Typography>
         <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
